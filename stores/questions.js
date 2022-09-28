@@ -56,11 +56,16 @@ export const useQuestionStore = defineStore("questions", {
     ],
   }),
   actions: {
-    async fetchQuestions() {
+    async resetQuiz() {
+      this.questions = [];
+      this.currentQuestion = 0;
+      this.currentCategory = 11;
+    },
+    async fetchQuestions(category) {
       this.questions = [];
       try {
         this.questions = await fetch(
-          `https://opentdb.com/api.php?amount=${this.questionCount}&category=${this.currentCategory}`
+          `https://opentdb.com/api.php?amount=${this.questionCount}&category=${this.currentCategory}`, { initialCache: false }
         ).then((response) => response.json());
       } catch (error) {
         this.error = error;

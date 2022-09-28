@@ -5,4 +5,9 @@ export const useUserStore = defineStore("user", {
   state: () => ({
     userScore: 0,
   }),
+  actions: {
+    async resetScore() {
+      this.userScore = 0;
+    },
+  }
 });

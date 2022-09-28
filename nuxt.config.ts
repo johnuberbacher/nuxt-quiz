@@ -1,8 +1,3 @@
-import { defineNuxtConfig } from 'nuxt'
-
-export default defineNuxtConfig({
-    css: [
-        
-    ],
+export default ({
     modules: ['@nuxtjs/tailwindcss', '@pinia/nuxt',]
 })

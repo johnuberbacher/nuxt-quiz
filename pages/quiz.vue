@@ -1,33 +1,51 @@
 <template>
   <div class="h-full w-full bg-gray-100 dark:bg-gray-700 overflow-y-auto">
-    <div
-      class="container mx-auto h-full flex max-w-screen-xl p-5"
-    >
+    <div class="container mx-auto md:h-full flex max-w-screen-lg p-5">
       <div
-        class="grid grid-cols-1 md:grid-cols-3 gap-0 shadow-lg rounded-lg overflow-hidden m-auto"
+        class="w-full shadow-lg rounded-lg overflow-hidden mx-auto mb-5 md:m-auto"
       >
-        <div>
-          <img
-            class="h-full object-cover"
-            src="https://cdn.mos.cms.futurecdn.net/CAZ6JXi6huSuN4QGE627NR.jpg"
-          />
-        </div>
         <div class="h-full col-span-2">
-          <div v-if="loading">Loading posts...</div>
-          <div v-if="error">{{ error.message }}</div>
           <div
-            v-if="questions"
+            v-if="currentQuestion >= questionCount"
+            class="bg-white dark:bg-gray-800 py-20 px-5 lg:px-10 mx-auto text-center"
+          >
+            <div class="flex flex-row items-center justify-center">
+              <div
+                class="text-white uppercase text-2xl font-bold h-12 bg-primary-600 flex items-center rounded-l-full pl-7 pr-7 -mr-3"
+              >
+                your score
+              </div>
+              <div
+                class="w-[100px] h-[100px] text-5xl flex items-center justify-center bg-primary-500 text-white rounded-full font-bold"
+              >
+                {{ userScore }}
+              </div>
+            </div>
+            <NuxtLink
+              to="/"
+              class="w-auto inline-block items-center rounded mt-10 py-5 px-8 bg-gray-100 dark:bg-gray-600 hover:bg-primary-500 hover:shadow-lg group cursor-pointer"
+            >
+              <div class="font-semibold dark:text-white group-hover:text-white">
+                Play Again?
+              </div>
+            </NuxtLink>
+          </div>
+          <div
+            v-if="questions && currentQuestion <= questionCount - 1"
             class="bg-white dark:bg-gray-800 py-5 px-5 lg:py-10 lg:px-10 mx-auto"
           >
-          <div class="flex flex-row items-center justify-end mb-14 lg:mb-20">
-            <div class="text-white uppercase text-sm font-bold h-8 bg-primary-600 flex items-center rounded-l-full pl-5 pr-5 -mr-3">score</div>
-            <div
-              class="w-[56px] h-[56px] text-xl flex items-center justify-center bg-primary-500 text-white rounded-full font-bold"
-            >
-              {{ userScore }}
+            <div class="flex flex-row items-center justify-end mb-14 lg:mb-20">
+              <div
+                class="text-white uppercase text-sm font-bold h-8 bg-primary-600 flex items-center rounded-l-full pl-5 pr-5 -mr-3"
+              >
+                score
+              </div>
+              <div
+                class="w-[56px] h-[56px] text-xl flex items-center justify-center bg-primary-500 text-white rounded-full font-bold"
+              >
+                {{ userScore }}
+              </div>
             </div>
-
-          </div>
             <div
               class="bg-primary-500 py-10 px-10 xl:py-14 xl:px-20 mb-10 text-center rounded-2xl relative"
             >
@@ -78,7 +96,9 @@
                 ></div>
               </div>
               <div class="ml-5 text-sm font-semibold dark:text-white">
-                {{ currentQuestion + 1 }}/10
+                {{ currentQuestion + 1 }}&nbsp;&nbsp;/&nbsp;&nbsp;{{
+                  questionCount
+                }}
               </div>
             </div>
           </div>
@@ -92,22 +112,26 @@ import { storeToRefs } from "pinia";
 import { useQuestionStore } from "@/stores/questions";
 import { useUserStore } from "@/stores/user";
 
+const { userScore } = storeToRefs(useUserStore());
+const { fetchQuestions } = useQuestionStore();
 const { questions, currentQuestion, questionCount } = storeToRefs(
   useQuestionStore()
 );
-const { userScore } = storeToRefs(useUserStore());
-const { fetchQuestions } = useQuestionStore();
 
 await fetchQuestions();
 
 function validateAnswer(answer, correctAnswer) {
-  if (this.currentQuestion < this.questionCount) {
+  if (this.currentQuestion == this.questionCount) {
+    console.log("donzo!");
+  } else if (this.currentQuestion < this.questionCount) {
     if (answer == correctAnswer) {
       this.userScore++;
     }
     this.currentQuestion++;
-  } else {
-    console.log("finished");
   }
 }
+
+useHead({
+  title: "Nuxt3 Quiz",
+});
 </script>

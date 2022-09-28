@@ -5,7 +5,7 @@
   >
     <div class="px-5 py-10 lg:p-14 text-center relative">
       <h2 class="text-xl font-semibold">
-        <div class="text-7xl mb-5">{{category.icon}}</div>
+        <div class="text-7xl mb-5">{{ category.icon }}</div>
         {{ category.name }}
       </h2>
     </div>
