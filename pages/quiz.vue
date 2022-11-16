@@ -6,7 +6,7 @@
       >
         <div class="h-full col-span-2">
           <div
-            v-if="currentQuestion >= questionCount"
+            v-show="currentQuestion >= questionCount"
             class="bg-white dark:bg-gray-800 py-20 px-5 lg:px-10 mx-auto text-center"
           >
             <div class="flex flex-row items-center justify-center">
@@ -31,7 +31,7 @@
             </NuxtLink>
           </div>
           <div
-            v-if="questions && currentQuestion <= questionCount - 1"
+            v-show="questions && currentQuestion <= questionCount - 1"
             class="bg-white dark:bg-gray-800 py-5 px-5 lg:py-10 lg:px-10 mx-auto"
           >
             <div class="flex flex-row items-center justify-end mb-14 lg:mb-20">

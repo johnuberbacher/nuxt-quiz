@@ -1,5 +1,5 @@
 export default ({
-    target: 'static',
-    ssr: false,
+    target: 'server',
+    ssr: true,
     modules: ['@nuxtjs/tailwindcss', '@pinia/nuxt',]
 })
